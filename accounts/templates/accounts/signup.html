@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <h1>회원가입</h1>
+ <hr>
+ <!-- 또! POST 누락, 회원가입 버튼 누르자마자 알았다. -->
+ <form action="{% url 'accounts:signup' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="회원가입">
+ </form>
+ <hr>
+ <a href="{% url 'posts:index' %}">메인으로</a>
+{% endblock content %}

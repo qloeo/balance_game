@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+<p>작성자: {{ post.user }}</p>
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="answer" value="select1_content" {% if disable_select1 %}disabled{% endif %}>
+        {{ post.select1_content }} - total: {{ post.select1_users }}
+    </button>
+    <button type="submit" name="answer" value="select2_content" {% if disable_select2 %}disabled{% endif %}>
+        {{ post.select2_content }} - total: {{ post.select2_users }}
+    </button>
+</form>
+<hr>
+<a href="{% url 'posts:index' %}">메인으로</a>
+{% endblock content %}
+
+{% comment %} {% if request.session.answered %}disabled{% endif %} {% endcomment %}
+
+{% block script %}
+<script>
+
+</script>
+{% endblock script %}

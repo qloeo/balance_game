@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{% url 'posts:create' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="생성">
+</form>
+<hr>
+<a href="{% url 'posts:index' %}">메인으로</a>
+{% endblock content %}
