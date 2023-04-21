@@ -30,7 +30,13 @@
          <p>{{ post.select2_content }}</p> - total: {{ post.select2_users }}
     </button>
 </form>
-
+{% if request.user == post.user %}
+<a class="btn btn-primary" href="{% url 'posts:update' post.pk %}">게시물 수정</a>
+<form action="{% url 'posts:delete' post.pk  %}" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="게시물 삭제">
+</form>
+{% endif %}
 <hr>
 <a class="btn btn-primary" href="{% url 'posts:index' %}">메인으로</a>
 {% endblock content %}
