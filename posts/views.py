@@ -35,24 +35,22 @@ from .models import Post
 @login_required
 def detail(request, post_pk):
     post = Post.objects.get(pk=post_pk)
-    disable_select1 = post.answered
-    disable_select2 = post.answered
     if request.method == 'POST':
         answer = request.POST.get('answer')
         if answer == 'select1_content':
-            post.select1_users += 1
-            post.select2_users = 0
+            if post.answered == False:
+                post.select1_users += 1
+                post.answered = True
         elif answer == 'select2_content':
-            post.select2_users += 1
-            post.select1_users = 0
-        disable_select1 = True
-        disable_select2 = True
+            if post.answered == False:
+                post.select2_users += 1
+                post.answered = True
+
         post.save()
         return redirect('posts:detail', post.pk)
     context ={
         'post': post,
-        'disable_select1': disable_select1,
-        'disable_select2': disable_select2,
+
 
     }
     return render(request, 'posts/detail.html', context)
