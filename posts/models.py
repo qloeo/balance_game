@@ -7,6 +7,8 @@ class Post(models.Model):
     title = models.CharField(max_length=80)
     select1_users = models.IntegerField(default=0)
     select1_content = models.CharField(max_length=80)
+    select1_image = models.ImageField(blank=True, upload_to='images')
     select2_users = models.IntegerField(default=0)
     select2_content = models.CharField(max_length=80)
+    select2_image = models.ImageField(blank=True, upload_to='images')
     answered = models.BooleanField(default=False)

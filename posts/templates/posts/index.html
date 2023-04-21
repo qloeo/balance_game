@@ -1,26 +1,70 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <h1>{{ user }} 안녕?</h1>
-  {% if user.is_authenticated %}
-    <form action="{% url 'accounts:logout' %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="로그아웃">
-    </form>
-    <form action="{% url 'accounts:delete' %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="회원탈퇴">
-    </form>
-  {% else %}
-    <a href="{% url 'accounts:login' %}">로그인</a>
-    <a href="{% url 'accounts:signup' %}">회원가입</a>
-  {% endif %}
-  <a href="{% url 'posts:create' %}">create</a>
+{% block style %}
+  .main__header{
+    display: flex;
+    justify-content: space-between; 
+    margin: 2rem 4rem 0 2rem;
+  }
 
+  article {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem 1rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  @media (max-width: 1024px) {
+    article {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 750px) {
+    article {
+      grid-template-columns: 1fr;
+    }
+  }
+  .index--card {
+    margin: auto;
+    
+  }
+  .img--flex {
+    display: flex;
+  }
+  img {
+    width: 50%;
+    height: 150px;
+    border-radius: 10%;
+    padding: 0.4rem;
+  }
+  
+
+{% endblock style %}
+
+{% block content %}
+<div class="main__header">
   <h3>선택 목록</h3>
-  {% for post in posts %}
-    {{ post.pk }}
-    <a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a>
-  {% endfor %}
+  <a href="{% url 'posts:create' %}"  type="button" class="btn btn-primary">게시물 등록</a>
+</div>
+<article>
+{% for post in posts %}
+  <div class="card index--card" style="width: 18rem;">
+    <div class="img--flex">
+        {% if post.select1_image %}
+        <img src="{{ post.select1_image.url }}"  alt="img">
+        {% endif %}
+        {% if post.select2_image %}
+        <img src="{{ post.select2_image.url }}" alt="img">
+        {% endif %}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ post.title }}</h5>
+      <a href="{% url 'posts:detail' post.pk %}" class="btn btn-primary">선택하기</a>
+    </div>
+  </div>
+{% endfor %}
+</article>
+
+
 
 {% endblock content %}

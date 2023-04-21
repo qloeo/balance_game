@@ -1,21 +1,37 @@
 {% extends 'base.html' %}
 
+{% block style %}
+  
+  img {
+    width: 300px;
+    height: 200px;
+  }
+
+
+{% endblock style %}
+
 {% block content %}
-<h1>{{ post.title }}</h1>
+<h3>{{ post.title }}</h3>
 <p>작성자: {{ post.user }}</p>
 <hr>
 
 <form method="post">
     {% csrf_token %}
-    <button type="submit" name="answer" value="select1_content">
-        {{ post.select1_content }} - total: {{ post.select1_users }}
+    <button type="submit" class="btn btn-success" name="answer" value="select1_content">
+      {% if post.select1_image %}
+        <img src="{{ post.select1_image.url }}" alt="img">
+      {% endif %}
+        <p>{{ post.select1_content }}</p>- total: {{ post.select1_users }}
     </button>
-    <button type="submit" name="answer" value="select2_content">
-        {{ post.select2_content }} - total: {{ post.select2_users }}
+    <button type="submit" class="btn btn-warning" name="answer" value="select2_content">
+        {% if post.select2_image %}
+          <img src="{{ post.select2_image.url }}" alt="img">
+        {% endif %}
+         <p>{{ post.select2_content }}</p> - total: {{ post.select2_users }}
     </button>
 </form>
 
 <hr>
-<a href="{% url 'posts:index' %}">메인으로</a>
+<a class="btn btn-primary" href="{% url 'posts:index' %}">메인으로</a>
 {% endblock content %}
 
